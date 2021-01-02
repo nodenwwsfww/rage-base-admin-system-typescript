@@ -1,0 +1,3 @@
+player = mp.players.local
+
+//

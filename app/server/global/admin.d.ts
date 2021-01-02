@@ -1,0 +1,1 @@
+declare function sendAdminMessage(minimalLevel: number, message: string): void
