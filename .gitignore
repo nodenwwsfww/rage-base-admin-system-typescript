@@ -13,6 +13,8 @@ bt.dat
 /plugins/*
 /packages/*
 /client_packages/*
+/app/server/.idea/*
+/app/client/.idea/*
 /app/server/node_modules/*
 /app/client/node_modules/*
 /encryption_keys/*
