@@ -1,1 +1,1 @@
-require('./admin')
+import './admin'

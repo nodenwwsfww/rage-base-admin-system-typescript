@@ -1,9 +1,8 @@
 // Init global constants
-require('./global/admin')
+import './global/admin'
 game = {}
 
 // Init events.
-require('./events');
-// Init commands.
-require('./commands');
+import './events'
+import './commands'
 

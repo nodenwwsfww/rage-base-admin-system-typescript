@@ -1,10 +1,4 @@
-type adminCMD = {
-    name: string
-    accessLevel? : number
-}
-
 const adminData: Array<adminCMD> = [
-
     {
         name: 'alog',
         accessLevel: 1,
@@ -26,4 +20,4 @@ const adminData: Array<adminCMD> = [
     },
 ]
 
-module.exports = adminData
+export default adminData
