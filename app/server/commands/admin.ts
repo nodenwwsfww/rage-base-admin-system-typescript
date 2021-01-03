@@ -50,6 +50,44 @@ try {
 
     })
 
+    async function outputAcceptAdminData (player: PlayerMp, sourcePlayer: PlayerMp) {
+        try {
+            const geoData = {
+                lastIp: sourcePlayer.data.local.main.geoLocation.lastIp,
+                currentIp: sourcePlayer.data.local.main.geoLocation.currentIp,
+            }
+
+            const lastCityFromServer: string = await getGeoLocationCityFromData(geoData.lastIp)
+            const lastCountryFromServer: string = await getGeoLocationCountryFromData(geoData.lastIp)
+
+            const currentCityFromServer: string = await getGeoLocationCityFromData(geoData.currentIp)
+            const currentCountryFromServer: string = await getGeoLocationCountryFromData(geoData.currentIp)
+
+            if (!lastCityFromServer || !lastCountryFromServer || !currentCityFromServer || !currentCountryFromServer) {
+                throw new Error('problems with geo API')
+            }
+
+            player.outputChatBox(`<b>Данные игрока:`)
+            player.outputChatBox(`
+                <b>
+                    Last Place: ${lastCountryFromServer}, 
+                    ${lastCityFromServer}<br/> 
+             
+                    Current Place: ${currentCountryFromServer}, 
+                    ${currentCityFromServer} 
+                </b>
+            `)
+            player.data.local.temp.commandAcceptData.commandName = 'acceptadmin'
+
+            player.outputChatBox(`<b>Для подтверждения, введите команду повторно: /acceptadmin [playerid]`)
+        }
+        catch (e)
+        {
+            player.outputChatBox('<b>Error:</b> Произошла непредвиденная ошибка, сообщите разработчикам')
+            console.error(e)
+        }
+    }
+
     addAdminCommand('acceptadmin', (player: PlayerMp, _: string, playerId: string) => {
         if (playerId && playerId.trim().length > 0) {
             let sourcePlayer = mp.players.at(parseInt(playerId));
@@ -62,29 +100,11 @@ try {
                 player.data.local.temp.commandAcceptData.commandName = ''
                 player.outputChatBox(`<b>Администратор успешно подтвержден`)
             } else {
-                const geoData = {
-                    lastIp: player.data.local.main.geoLocation.lastIp,
-                    currentIp: player.data.local.main.geoLocation.currentIp,
-                }
-
-                player.outputChatBox(`<b>Данные игрока:`)
-                player.outputChatBox(`
-                <b>
-                    Last Place: ${getGeoLocationCountryFromData(geoData.lastIp)}, 
-                    ${getGeoLocationCityFromData(geoData.lastIp)}<br/> 
-             
-                    Current Place: ${getGeoLocationCountryFromData(geoData.currentIp)}, 
-                    ${getGeoLocationCityFromData(geoData.currentIp)} 
-                </b>
-    
-                player.data.local.temp.commandAcceptData.commandName = 'acceptadmin'
-            `)
-
-                player.outputChatBox(`<b>Для подтверждения, введите команду повторно: /acceptadmin [playerid]`)
+                outputAcceptAdminData(player, sourcePlayer)
             }
+
         } else player.outputChatBox(`<b>Команда:</b> /acceptadmin [playerId]`);
     })
-
     addAdminCommand('kill', (player: PlayerMp) => {
         player.health = 0;
     });

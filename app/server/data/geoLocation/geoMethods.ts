@@ -16,6 +16,7 @@ try {
         async getGeoLocationCountryFromData(ipAddress: string) {
             try {
                 const data = await fetch(geoAPIUrl + ipAddress)
+                if (typeof data?.country !== 'string') return false
                 return data.country
             } catch (e) {
                 console.error(`<Error in data/geolocation/geoMethods.ts> ${e}`)
@@ -25,6 +26,7 @@ try {
         async getGeoLocationCityFromData(ipAddress: string) {
             try {
                 const data = await fetch(geoAPIUrl  + ipAddress)
+                if (typeof data?.city !== 'string') return false
                 return data.city
             } catch (e) {
                 console.error(`<Error in data/geolocation/geoMethods.ts> ${e}`)
